@@ -99,6 +99,9 @@ class RoadLikeTool extends ToolStroke
 
 		case WIRE:
 			return applyWireTool(eff);
+			
+		case FIREBREAK:
+			return applyFirebreak(eff);
 
 		default:
 			throw new Error("Unexpected tool: " + tool);
@@ -130,6 +133,17 @@ class RoadLikeTool extends ToolStroke
 	boolean applyWireTool(ToolEffectIfc eff)
 	{
 		if (layWire(eff)) {
+			fixZone(eff);
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	boolean applyFirebreak(ToolEffectIfc eff)
+	{
+		if (layFirebreak(eff)) {
 			fixZone(eff);
 			return true;
 		}
@@ -350,6 +364,123 @@ class RoadLikeTool extends ToolStroke
 	private boolean layWire(ToolEffectIfc eff)
 	{
 		final int WIRE_COST = 5;
+		final int UNDERWATER_WIRE_COST = 25;
+
+		int cost = WIRE_COST;
+
+		char tile = (char) eff.getTile(0, 0);
+		tile = neutralizeRoad(tile);
+
+		switch (tile)
+		{
+		case RIVER:		// wire on water
+		case REDGE:
+		case CHANNEL:
+
+			cost = UNDERWATER_WIRE_COST;
+
+			// check east
+			{
+				int tmp = eff.getTile(1, 0);
+				char tmpn = neutralizeRoad(tmp);
+
+				if (isConductive(tmp) &&
+					tmpn != HROADPOWER &&
+					tmpn != RAILHPOWERV &&
+					tmpn != HPOWER)
+				{
+					eff.setTile(0, 0, VPOWER);
+					break;
+				}
+			}
+
+			// check west
+			{
+				int tmp = eff.getTile(-1, 0);
+				char tmpn = neutralizeRoad(tmp);
+
+				if (isConductive(tmp) &&
+					tmpn != HROADPOWER &&
+					tmpn != RAILHPOWERV &&
+					tmpn != HPOWER)
+				{
+					eff.setTile(0, 0, VPOWER);
+					break;
+				}
+			}
+
+			// check south
+			{
+				int tmp = eff.getTile(0, 1);
+				char tmpn = neutralizeRoad(tmp);
+
+				if (isConductive(tmp) &&
+					tmpn != VROADPOWER &&
+					tmpn != RAILVPOWERH &&
+					tmpn != VPOWER)
+				{
+					eff.setTile(0, 0, HPOWER);
+					break;
+				}
+			}
+
+			// check north
+			{
+				int tmp = eff.getTile(0, -1);
+				char tmpn = neutralizeRoad(tmp);
+
+				if (isConductive(tmp) &&
+					tmpn != VROADPOWER &&
+					tmpn != RAILVPOWERH &&
+					tmpn != VPOWER)
+				{
+					eff.setTile(0, 0, HPOWER);
+					break;
+				}
+			}
+
+			// cannot do wire here
+			return false;
+
+		case TileConstants.ROADS: // wire on E/W road
+			eff.setTile(0, 0, HROADPOWER);
+			break;
+
+		case ROADS2: // wire on N/S road
+			eff.setTile(0, 0, VROADPOWER);
+			break;
+
+		case LHRAIL:	// wire on E/W railroad tracks
+			eff.setTile(0, 0, RAILHPOWERV);
+			break;
+
+		case LVRAIL:	// wire on N/S railroad tracks
+			eff.setTile(0, 0, RAILVPOWERH);
+			break;
+
+		default:
+			if (tile != DIRT) {
+				if (city.autoBulldoze && canAutoBulldozeRRW(tile)) {
+					cost += 1; //autodoze cost
+				}
+				else {
+					//cannot do wire here
+					return false;
+				}
+			}
+
+			//wire on dirt
+			eff.setTile(0, 0, LHPOWER);
+			break;
+		}
+
+		eff.spend(cost);
+		return true;
+	}
+	
+	private boolean layFirebreak(ToolEffectIfc eff)
+	{
+		final int WIRE_COST = 10;
 		final int UNDERWATER_WIRE_COST = 25;
 
 		int cost = WIRE_COST;
