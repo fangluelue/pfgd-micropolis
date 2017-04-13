@@ -95,6 +95,25 @@ public class TileConstants
 	static final char RAILHPOWERV = 221;
 	static final char RAILVPOWERH = 222;
 	static final char LASTPOWER = 222;
+	
+	static final char FIREBREAKBASE = 960;
+	static final char HFIREPOWER = 960;    //underwater power-line
+	static final char VFIREPOWER = 961;
+	static final char LHFIREPOWER = 962;
+	static final char LVFIREPOWER = 963;
+	static final char LVFIREPOWER2 = 964;
+	private static final char LVFIREPOWER3 = 965;
+	private static final char LVFIREPOWER4 = 966;
+	private static final char LVFIREPOWER5 = 967;
+	private static final char LVFIREPOWER6 = 968;
+	private static final char LVFIREPOWER7 = 969;
+	private static final char LVFIREPOWER8 = 970;
+	private static final char LVFIREPOWER9 = 971;
+	private static final char LVFIREPOWER10 = 972;
+	static final char RAILHFIREPOWERV = 973;
+	static final char RAILVFIREPOWERH = 974;
+	static final char LASTFIREPOWER = 974;
+	
 	static final char RAILBASE = 224;
 	static final char HRAIL = 224;     //underwater rail (horz)
 	static final char VRAIL = 225;     //underwater rail (vert)
@@ -150,7 +169,7 @@ public class TileConstants
 	static final char VBRDG1 = 949;
 	static final char VBRDG2 = 950;
 	static final char VBRDG3 = 951;
-	static final char NEW_BUILDING = 964; //Tile id for the NEW_BUILDING tile. This is the id of the center of the tile as listed in tiles.rc
+	//static final char NEW_BUILDING = 964; //Tile id for the NEW_BUILDING tile. This is the id of the center of the tile as listed in tiles.rc
 	public static final char LAST_TILE = 968;
 
 	static final char [] RoadTable = new char[] {
@@ -173,6 +192,13 @@ public class TileConstants
 		LHPOWER, LVPOWER5, LHPOWER, LVPOWER6,
 		LVPOWER4, LVPOWER9, LVPOWER8, LVPOWER10
 		};
+	
+	static final char [] FirebreakTable = new char[] {
+			LHFIREPOWER, LVFIREPOWER, LHFIREPOWER, LVFIREPOWER2,
+			LVFIREPOWER, LVFIREPOWER, LVFIREPOWER3, LVFIREPOWER7,
+			LHFIREPOWER, LVFIREPOWER5, LHFIREPOWER, LVFIREPOWER6,
+			LVFIREPOWER4, LVFIREPOWER9, LVFIREPOWER8, LVFIREPOWER10
+			};
 
 	//
 	// status bits
@@ -213,6 +239,7 @@ public class TileConstants
 		// can we autobulldoze this tile?
 		if ((tileValue >= FIRSTRIVEDGE && tileValue <= LASTRUBBLE) ||
 			(tileValue >= POWERBASE + 2 && tileValue <= POWERBASE + 12) ||
+			(tileValue >= FIREBREAKBASE + 2 && tileValue <= FIREBREAKBASE + 12) ||
 			(tileValue >= TINYEXP && tileValue <= LASTTINYEXP))
 		{
 			return true;
@@ -540,12 +567,28 @@ public class TileConstants
 
 		return (tile >= LHPOWER && tile <= LVPOWER10);
 	}
+	
+	public static boolean isFirebreakDynamic(int tile)
+	{
+		assert (tile & LOMASK) == tile;
+
+		return (tile >= LHFIREPOWER && tile <= LVFIREPOWER10);
+	}
 
 	public static boolean wireConnectsEast(int tile)
 	{
 		int ntile = neutralizeRoad(tile);
 		return (isConductive(tile) &&
 			ntile != HPOWER &&
+			ntile != HROADPOWER &&
+			ntile != RAILHPOWERV);
+	}
+	
+	public static boolean fireConnectsEast(int tile)
+	{
+		int ntile = neutralizeRoad(tile);
+		return (isConductive(tile) &&
+			ntile != HFIREPOWER &&
 			ntile != HROADPOWER &&
 			ntile != RAILHPOWERV);
 	}
@@ -558,6 +601,15 @@ public class TileConstants
 			ntile != VROADPOWER &&
 			ntile != RAILVPOWERH);
 	}
+	
+	public static boolean fireConnectsNorth(int tile)
+	{
+		int ntile = neutralizeRoad(tile);
+		return (isConductive(tile) &&
+			ntile != VFIREPOWER &&
+			ntile != VROADPOWER &&
+			ntile != RAILVPOWERH);
+	}
 
 	public static boolean wireConnectsSouth(int tile)
 	{
@@ -567,12 +619,30 @@ public class TileConstants
 			ntile != VROADPOWER &&
 			ntile != RAILVPOWERH);
 	}
+	
+	public static boolean fireConnectsSouth(int tile)
+	{
+		int ntile = neutralizeRoad(tile);
+		return (isConductive(tile) &&
+			ntile != VFIREPOWER &&
+			ntile != VROADPOWER &&
+			ntile != RAILVPOWERH);
+	}
 
 	public static boolean wireConnectsWest(int tile)
 	{
 		int ntile = neutralizeRoad(tile);
 		return (isConductive(tile) &&
 			ntile != HPOWER &&
+			ntile != HROADPOWER &&
+			ntile != RAILHPOWERV);
+	}
+	
+	public static boolean fireConnectsWest(int tile)
+	{
+		int ntile = neutralizeRoad(tile);
+		return (isConductive(tile) &&
+			ntile != HFIREPOWER &&
 			ntile != HROADPOWER &&
 			ntile != RAILHPOWERV);
 	}

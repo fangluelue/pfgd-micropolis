@@ -349,7 +349,38 @@ public class ToolStroke
 
 			eff.setTile(0, 0, WireTable[adjTile]);
 		} //end if on a rail tile
+		
+		else if (isFirebreakDynamic(tile))
+		{
+			// Cleanup Wire
+			int adjTile = 0;
 
+			// check wire to north
+			if (fireConnectsSouth(eff.getTile(0, -1)))
+			{
+				adjTile |= 1;
+			}
+
+			// check wire to east
+			if (fireConnectsWest(eff.getTile(1, 0)))
+			{
+				adjTile |= 2;
+			}
+
+			// check wire to south
+			if (fireConnectsNorth(eff.getTile(0, 1)))
+			{
+				adjTile |= 4;
+			}
+
+			// check wire to west
+			if (fireConnectsEast(eff.getTile(-1, 0)))
+			{
+				adjTile |= 8;
+			}
+
+			eff.setTile(0, 0, FirebreakTable[adjTile]);
+		} //end if on a rail tile
 		return;
 	}
 }

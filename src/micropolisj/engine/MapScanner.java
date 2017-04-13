@@ -85,9 +85,6 @@ class MapScanner extends TileBehavior
 		case SEAPORT:
 			doSeaport();
 			return;
-		case NEW_BUILDING:
-			doNewBuilding(); //Call the NEW_BUILDING placeholder function
-			return;
 		default:
 			assert false;
 		}
@@ -208,16 +205,6 @@ class MapScanner extends TileBehavior
 		city.powerPlants.add(new CityLocation(xpos, ypos));
 	}
 	
-	//Placeholder for a new building
-	//Look to the other do<building name>() functions to guidance on what this function should do.
-	void doNewBuilding()
-	{
-		//Very basic building functionality. Checks for power and does "repair"
-		boolean powerOn = checkZonePower();
-		if ((city.cityTime % 8) == 0) {
-			repairZone(NEW_BUILDING, 3);
-		}
-	}
 
 	void doFireStation()
 	{

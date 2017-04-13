@@ -480,7 +480,7 @@ class RoadLikeTool extends ToolStroke
 	
 	private boolean layFirebreak(ToolEffectIfc eff)
 	{
-		final int WIRE_COST = 10;
+		final int WIRE_COST = 15;
 		final int UNDERWATER_WIRE_COST = 25;
 
 		int cost = WIRE_COST;
@@ -587,7 +587,7 @@ class RoadLikeTool extends ToolStroke
 			}
 
 			//wire on dirt
-			eff.setTile(0, 0, LHPOWER);
+			eff.setTile(0, 0, LHFIREPOWER);
 			break;
 		}
 

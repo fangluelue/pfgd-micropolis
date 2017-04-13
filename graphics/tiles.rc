@@ -1009,13 +1009,20 @@
 957   misc_animation@0,2080
 958   misc_animation@0,2096
 959   misc_animation@0,2112
-# BEGIN NEW BUILDING #
-960   new_building@0,0            (conducts)
-961   new_building@16,0           (conducts)
-962   new_building@32,0           (conducts)
-963   new_building@0,16           (conducts)
-964   new_building@16,16    (zone)(conducts)(building=3x3)(behavior=NEW_BUILDING)(description=#28)
-965   new_building@32,16          (conducts)
-966   new_building@0,32           (conducts)
-967   new_building@16,32          (conducts)
-968   new_building@32,32          (conducts)
+# BEGIN FIREBREAK #
+960   firebreak@0,0                 (bulldozable)(noburn)(overwater)(conducts)(description=#28)
+961   firebreak@0,16                (bulldozable)(noburn)(overwater)(conducts)(description=#28)
+962   firebreak@0,32                (bulldozable)(noburn)(conducts)(description=#28)
+963   firebreak@0,48                (bulldozable)(noburn)(conducts)(description=#28)
+964   firebreak@0,64                (bulldozable)(noburn)(conducts)(description=#28)
+965   firebreak@0,80                (bulldozable)(noburn)(conducts)(description=#28)
+966   firebreak@0,96                (bulldozable)(noburn)(conducts)(description=#28)
+967   firebreak@0,112               (bulldozable)(noburn)(conducts)(description=#28)
+968   firebreak@0,128               (bulldozable)(noburn)(conducts)(description=#28)
+969   firebreak@0,144               (bulldozable)(noburn)(conducts)(description=#28)
+970   firebreak@0,160               (bulldozable)(noburn)(conducts)(description=#28)
+971   firebreak@0,176               (bulldozable)(noburn)(conducts)(description=#28)
+972   firebreak@0,192               (bulldozable)(noburn)(conducts)(description=#28)
+973   firebreak@0,208               (bulldozable)(noburn)(conducts)(description=#28)
+974   firebreak@0,224               (bulldozable)(noburn)(conducts)(description=#28)
+975   firebreak@0,240               (bulldozable)(noburn)(conducts)(description=#28)
